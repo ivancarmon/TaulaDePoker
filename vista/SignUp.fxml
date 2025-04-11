@@ -55,5 +55,6 @@
       <Button fx:id="btn_password" layoutX="544.0" layoutY="266.0" mnemonicParsing="false" onAction="#asignarMostrarOcultar" prefHeight="25.0" prefWidth="26.0" style="-fx-background-color: transparent;" />
       <Button fx:id="btn_confirmpassword" accessibleRole="IMAGE_VIEW" layoutX="544.0" layoutY="316.0" mnemonicParsing="false" onAction="#asignarMostrarOcultar" prefHeight="25.0" prefWidth="26.0" style="-fx-background-color: transparent;" />
       <Text fx:id="lbl_Error" fill="RED" layoutX="619.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="129.0" />
+      <ImageView fx:id="img_perfil" fitHeight="48.0" fitWidth="46.0" layoutX="570.0" layoutY="381.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>

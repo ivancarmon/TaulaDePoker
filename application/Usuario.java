@@ -1,6 +1,12 @@
 package application;
 
 
+
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Array;
 import java.net.URL;
 import java.sql.PreparedStatement;
@@ -9,12 +15,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import javax.imageio.ImageIO;
 import javax.security.auth.login.LoginException;
 
 import org.mindrot.jbcrypt.BCrypt;
 
 import controlador.FormularioController;
 import excepciones.LoginFalladoExcepcion;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -29,6 +37,8 @@ public class Usuario{
 	/*
 	 * Atributos
 	 */
+	
+	private int id;
 	private String user;
 	private String password;
 	private String nombre;
@@ -36,8 +46,11 @@ public class Usuario{
 	private Image image;
 	private int fichas;
 	
-	public Usuario(String user,String password,String nombre,String apellidos,Image image) {
+	public Usuario(int id, String user,String password,String nombre,String apellidos,Image image) {
 		
+		this.id = id;
+		this.nombre = nombre;
+		this.apellidos = apellidos;
 		this.user = user;
 		this.password = password;
 		this.image = image;
@@ -47,17 +60,81 @@ public class Usuario{
 	
 	public Usuario(String user, String password) {
 		
-		this(user, password, null,null,null);
+		this(0, user, password, null,null,null);
 		
 	}
 	public Usuario(String user,String password,String nombre,String apellidos) {
 		
-		this(user,password,nombre,apellidos,null);
+		this(0,user,password,nombre,apellidos,null);
 		
 	}
 	
+
+
+	public Usuario() {
+		
+    	
+    	
+	}
 	
-    public static void asignarMostrarOcultar(boolean passwordvisible, PasswordField pass, TextField passfd, Button b) {
+	
+    public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getApellidos() {
+		return apellidos;
+	}
+
+	public void setApellidos(String apellidos) {
+		this.apellidos = apellidos;
+	}
+
+	public Image getImage() {
+		return image;
+	}
+
+	public void setImage(Image image) {
+		this.image = image;
+	}
+
+	public int getFichas() {
+		return fichas;
+	}
+
+	public void setFichas(int fichas) {
+		this.fichas = fichas;
+	}
+
+	public static void asignarMostrarOcultar(boolean passwordvisible, PasswordField pass, TextField passfd, Button b) {
     	
     	
         
@@ -108,23 +185,29 @@ public class Usuario{
 		ConexionDB con = new ConexionDB();
 		con.conectar();
 		
-		String sql = "SELECT pass FROM credentials WHERE user= ? AND pass = ?";
+		String sql = "SELECT id,pass FROM credentials WHERE user= ?";
 		PreparedStatement stmt;
 		try {
 			stmt = con.cx.prepareStatement(sql);
 			
 			stmt.setString(1, this.user);
-			String passhash = hashearPass(this.password);
-			stmt.setString(2, passhash);
+			
 			
 			ResultSet rs = stmt.executeQuery();
 			
 			if(!rs.next()) throw new LoginFalladoExcepcion();
+			String hash = rs.getString("pass");
+			
+			if(!BCrypt.checkpw(this.password, hash)) throw new LoginFalladoExcepcion();
 			else {
+				
+				
+				this.setId(rs.getInt("id"));
 				
 				
 				
 			}
+			
 			
 		} catch (SQLException e) {
 
@@ -143,7 +226,8 @@ public class Usuario{
     	ConexionDB con = new ConexionDB();
 		con.conectar();
 		
-		String sql = "INSERT INTO cre";
+		
+		String sql = "INSERT INTO credentials(user,pass,imagen,nombre,apellidos) VALUES(?,?,?,?,?)";
 		PreparedStatement stmt;
 		try {
 			stmt = con.cx.prepareStatement(sql);
@@ -151,8 +235,11 @@ public class Usuario{
 			stmt.setString(1, this.user);
 			String passhash = hashearPass(this.password);
 			stmt.setString(2, passhash);
+			stmt.setBytes(3, imageToByteArray(this.image));
+			stmt.setString(4, this.nombre);
+			stmt.setString(5, apellidos);
 			
-			ResultSet rs = stmt.executeQuery();
+			stmt.executeUpdate();
 			
 		} catch (SQLException e) {
 
@@ -203,6 +290,26 @@ public class Usuario{
     	return Errores;
     	
     }
+    
+    public static byte[] imageToByteArray(Image image) {
+    	
+        BufferedImage bImage = SwingFXUtils.fromFXImage(image, null);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        
+        try {
+            ImageIO.write(bImage, "png", baos);
+            return baos.toByteArray();
+        } catch (IOException e) {
+            try {
+                ImageIO.write(bImage, "jpg", baos);
+                return baos.toByteArray();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                return null;
+            }
+        }
+    }
+
 
 	
 	

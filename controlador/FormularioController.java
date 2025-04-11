@@ -91,9 +91,14 @@ public class FormularioController {
     
     @FXML
     private PasswordField pd_confirmpassword;
+    
     @FXML
     public Text lbl_Error;
-
+    
+    @FXML
+    private ImageView img_perfil;
+    
+    Usuario us = new Usuario();
     
     @FXML
     public void initialize() {
@@ -113,6 +118,8 @@ public class FormularioController {
 		
 		Usuario.asignarBoton(btn_confirmpassword,"/vista/img/ojoabierto.png");
 		Usuario.asignarBoton(btn_password , "/vista/img/ojoabierto.png");
+		
+		
 
     }
     
@@ -129,7 +136,7 @@ public class FormularioController {
 
 	@FXML
 	void escogerImagen(ActionEvent event) {
-
+		
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.getExtensionFilters().addAll(
 				new FileChooser.ExtensionFilter("PNG Files", "*.png")
@@ -139,7 +146,9 @@ public class FormularioController {
 
 		if (selectedFile != null && selectedFile.exists()) {    		
 			Image image = new Image(selectedFile.toURI().toString());
-			img_foto.setImage( image );
+			us.setImage(image);
+			img_perfil.setImage(image);
+			
 		}  
 	}
 	@FXML
@@ -194,7 +203,12 @@ public class FormularioController {
 		
 		if(Errores.size() == 0) {
 			
-			Usuario us = new Usuario(user, pass, nombre, apellidos);
+			us.setUser(user);
+			us.setPassword(pass);
+			us.setNombre(nombre);
+			us.setApellidos(apellidos);
+			us.setFichas(500);
+			us.Registrarse();
 			
 		}
 		else {
