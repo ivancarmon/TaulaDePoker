@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Ellipse?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="653.0" prefWidth="1090.0" styleClass="fondo" stylesheets="@../application/application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.JuegoController">
+   <children>
+      <Ellipse fill="DODGERBLUE" layoutX="533.0" layoutY="316.0" radiusX="443.0" radiusY="217.0" stroke="BLACK" strokeType="INSIDE" />
+      <Ellipse fill="#51c300" layoutX="528.0" layoutY="317.0" radiusX="409.0" radiusY="193.0" stroke="BLACK" strokeType="INSIDE" />
+      <ImageView fx:id="flop1" fitHeight="112.0" fitWidth="88.0" layoutX="281.0" layoutY="233.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="flop2" fitHeight="112.0" fitWidth="88.0" layoutX="383.0" layoutY="233.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="flop3" fitHeight="112.0" fitWidth="88.0" layoutX="484.0" layoutY="233.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="turn" fitHeight="112.0" fitWidth="88.0" layoutX="588.0" layoutY="233.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="river" fitHeight="112.0" fitWidth="88.0" layoutX="694.0" layoutY="233.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="img_perfil" fitHeight="77.0" fitWidth="77.0" layoutX="361.0" layoutY="433.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="cardsplayer1" fitHeight="112.0" fitWidth="88.0" layoutX="462.0" layoutY="398.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="cardsplayer2" fitHeight="112.0" fitWidth="88.0" layoutX="558.0" layoutY="398.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="fichas" layoutX="499.0" layoutY="515.0" prefHeight="17.0" prefWidth="68.0" />
+      <ImageView fitHeight="17.0" fitWidth="15.0" layoutX="484.0" layoutY="517.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@img/fichas.png" />
+         </image>
+      </ImageView>
+   </children>
+</Pane>
